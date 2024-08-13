@@ -22,7 +22,7 @@ Content-Type: application/json
     "duration":"188"
 }
 ###
-DELETE  https://localhost:3333/videos/
+DELETE  http://localhost:3333/videos/
 
 
 
