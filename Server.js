@@ -5,30 +5,44 @@ import { DatabaseMemory } from './database-memory.js'
 const server = fastify()
 const database = new DatabaseMemory()
 
-server.post('/videos',(response, reply) => {
+server.post('/videos',(request, reply) => {
     const {title, duration, description} = request.body
 
     database.create ({
         title,
         description,
-        duration
+        duration,
     })
 
     return reply.status(201).send()
 })
 
-server.get('/videos',() => {
+server.get('/videos',(request) => {
+   const search = request.query.search
    const videos = database.list()
-   console.log(videos)
+   
+   
    return videos
+}) 
+
+server.put('/videos/:id',(request, reply) => {
+    const VideoID = request.params.id
+    const {title, duration, description} = request.body
+
+    database.update(VideoID,{
+        title,
+        duration,
+        description
+    })
+    return reply.status(204).send()
 })
 
-server.put('/videos/:id',() => {
-    return "hello python"
-})
+server.delete('/videos/:id',(request, reply) => {
+    const VideoID = database.params.id
+    
+    database.delete(VideoID)
 
-server.delete('/videos/:id',() => {
-    return "hello python"
+    return reply.status(204).send()
 })
 
 
